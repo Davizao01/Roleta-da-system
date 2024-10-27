@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roleta Russa</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #trem {
+            display: none;
+            margin-bottom: 20px;
+            width: 100px; /* Largura do trem */
+            height: 50px; /* Altura do trem */
+            background-color: red; /* Cor do trem */
+            border-radius: 5px;
+            position: relative;
+            animation: spin 1s linear infinite; /* Animação de girar */
+        }
+        #contador {
+            font-size: 48px;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #ff5555;
+            border: none;
+            color: white;
+            border-radius: 5px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="trem"></div>
+    <div id="contador"></div>
+    <button onclick="girar()">Gire</button>
+    <p id="mensagem"></p>
+
+    <script>
+        function girar() {
+            const trem = document.getElementById("trem");
+            const contador = document.getElementById("contador");
+            const mensagem = document.getElementById("mensagem");
+
+            trem.style.display = "block"; // Mostrar o trem
+            contador.textContent = ""; // Limpar contador anterior
+            mensagem.textContent = ""; // Limpar mensagens anteriores
+
+            let count = 3; // Contagem regressiva inicial
+            const interval = setInterval(() => {
+                contador.textContent = count; // Atualizar contador
+                count--;
+
+                if (count < 0) {
+                    clearInterval(interval); // Parar contagem
+                    trem.style.display = "none"; // Esconder o trem
+
+                    // Verificar se perdeu
+                    const perdeu = Math.random() < (1 / 6); // 1 em 6 chance de perder
+                    if (perdeu) {
+                        mensagem.textContent = "Apagando System32...";
+                        setTimeout(() => {
+                            mensagem.textContent = "Brincadeira! Seu sistema está seguro.";
+                        }, 2000); // Esperar 2 segundos antes de mostrar a mensagem de brincadeira
+                    } else {
+                        mensagem.textContent = "Seu sistema foi salvo!";
+                    }
+                }
+            }, 1000); // Atualizar a cada 1 segundo
+        }
+    </script>
+
+</body>
+</html>
